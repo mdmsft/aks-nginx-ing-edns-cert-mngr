@@ -12,6 +12,14 @@ terraform {
       source  = "hashicorp/random"
       version = "~>3.0"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~>2.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~>2.0"
+    }
   }
   backend "azurerm" {
     use_azuread_auth = true
@@ -32,8 +40,28 @@ provider "azurerm" {
   }
 }
 
+provider "azurerm" {
+  alias           = "global"
+  tenant_id       = var.global_tenant_id
+  subscription_id = var.global_subscription_id
+  client_id       = var.global_client_id
+  client_secret   = var.global_client_secret
+
+  features {}
+}
+
 provider "azuread" {
   tenant_id     = var.tenant_id
   client_id     = var.client_id
   client_secret = var.client_secret
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = ".kube/config"
+  }
+}
+
+provider "kubernetes" {
+  config_path = ".kube/config"
 }

@@ -254,3 +254,33 @@ variable "kubernetes_service_rbac_writers" {
   type    = list(string)
   default = []
 }
+
+variable "global_tenant_id" {
+  type = string
+}
+
+variable "global_subscription_id" {
+  type = string
+}
+
+variable "global_client_id" {
+  type = string
+}
+
+variable "global_client_secret" {
+  type      = string
+  sensitive = true
+}
+
+variable "global_resource_group_name" {
+  type = string
+}
+
+variable "global_dns_zone_name" {
+  type = string
+}
+
+variable "ddos_protection_mode_enabled" {
+  type    = bool
+  default = false
+}

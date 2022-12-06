@@ -80,6 +80,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
     }
   }
+
+  depends_on = [
+    azurerm_subnet_nat_gateway_association.cluster
+  ]
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "main" {
@@ -118,12 +122,15 @@ resource "azurerm_role_assignment" "cluster_registry_pull" {
   principal_id         = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
 }
 
-resource "null_resource" "kube_config" {
-  triggers = {
-    cluster = azurerm_kubernetes_cluster.main.id
-  }
+resource "local_file" "kube_config" {
+  filename = ".kube/config"
+  content  = azurerm_kubernetes_cluster.main.kube_config_raw
+
   provisioner "local-exec" {
-    command = "echo \"${azurerm_kubernetes_cluster.main.kube_config_raw}\" | tee .kubeconfig"
+    command = "kubelogin convert-kubeconfig -l spn --client-id ${var.client_id} --client-secret ${var.client_secret}"
+    environment = {
+      KUBECONFIG = ".kube/config"
+    }
   }
 }
 
@@ -149,7 +156,7 @@ resource "azurerm_role_assignment" "kubernetes_service_rbac_administrator" {
 }
 
 resource "azurerm_role_assignment" "kubernetes_service_rbac_cluster_administrator" {
-  for_each             = toset(var.kubernetes_service_rbac_cluster_administrators)
+  for_each             = toset(concat([data.azurerm_client_config.main.object_id], var.kubernetes_service_rbac_cluster_administrators))
   role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
   principal_id         = each.value
   scope                = azurerm_kubernetes_cluster.main.id
