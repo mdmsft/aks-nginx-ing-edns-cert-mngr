@@ -1,0 +1,8 @@
+controller:
+  service:
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-resource-group: ${load_balancer_resource_group}
+      service.beta.kubernetes.io/azure-pip-name: ${public_ip_name}
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+    externalTrafficPolicy: Local
+    loadBalancerIP: ${load_balancer_ip}

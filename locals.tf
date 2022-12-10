@@ -3,4 +3,5 @@ locals {
   environment            = terraform.workspace == "default" ? var.environment : terraform.workspace
   resource_suffix        = "${local.project}-${local.environment}-${var.region}"
   global_resource_suffix = "${local.project}-${local.environment}"
+  zones                  = ["1", "2", "3"]
 }

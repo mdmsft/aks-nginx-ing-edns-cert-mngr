@@ -1,0 +1,40 @@
+replicas: 3
+
+image: image
+
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+
+resources:
+  limits:
+    cpu: 25m
+    memory: 32Mi
+
+port: 80
+
+livenessProbePath: /healthz
+
+nodeSelector:
+  kubernetes.io/os: linux
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 9
+  targetAverageUtilization:
+    cpu: 80
+    memory: 80
+
+ingress:
+  annotations:
+    cert-manager.io/cluster-issuer: cluster-issuer
+    cert-manager.io/duration: 720h
+    cert-manager.io/renew-before: 72h
+    cert-manager.io/private-key-rotation-policy: Always
+
+domain: contoso.com

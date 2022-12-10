@@ -254,3 +254,73 @@ variable "kubernetes_service_rbac_writers" {
   type    = list(string)
   default = []
 }
+
+variable "global_tenant_id" {
+  type = string
+}
+
+variable "global_subscription_id" {
+  type = string
+}
+
+variable "global_client_id" {
+  type = string
+}
+
+variable "global_client_secret" {
+  type      = string
+  sensitive = true
+}
+
+variable "global_resource_group_name" {
+  type = string
+}
+
+variable "global_dns_zone_name" {
+  type = string
+}
+
+variable "ddos_protection_mode_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "echo_image" {
+  type    = string
+  default = "mdmsft/hello-world-dotnet:1.2.0-alpine"
+}
+
+variable "echo_replicas" {
+  type    = number
+  default = 3
+}
+
+variable "echo_memory_limit" {
+  type    = string
+  default = "32Mi"
+}
+
+variable "echo_cpu_limit" {
+  type    = string
+  default = "25m"
+}
+
+variable "echo_liveness_probe_path" {
+  type    = string
+  default = "/healthz"
+}
+
+variable "echo_port" {
+  type    = number
+  default = 5001
+}
+
+variable "echo_run_as_user" {
+  type    = number
+  default = 1001
+}
+
+variable "echo_run_as_group" {
+  type    = number
+  default = 1001
+}
