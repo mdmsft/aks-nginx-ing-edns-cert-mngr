@@ -284,3 +284,43 @@ variable "ddos_protection_mode_enabled" {
   type    = bool
   default = false
 }
+
+variable "echo_image" {
+  type    = string
+  default = "mdmsft/hello-world-dotnet:1.2.0-alpine"
+}
+
+variable "echo_replicas" {
+  type    = number
+  default = 3
+}
+
+variable "echo_memory_limit" {
+  type    = string
+  default = "32Mi"
+}
+
+variable "echo_cpu_limit" {
+  type    = string
+  default = "25m"
+}
+
+variable "echo_liveness_probe_path" {
+  type    = string
+  default = "/healthz"
+}
+
+variable "echo_port" {
+  type    = number
+  default = 5001
+}
+
+variable "echo_run_as_user" {
+  type    = number
+  default = 1001
+}
+
+variable "echo_run_as_group" {
+  type    = number
+  default = 1001
+}

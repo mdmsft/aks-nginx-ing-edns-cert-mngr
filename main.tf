@@ -1,5 +1,5 @@
 resource "random_string" "project" {
-  length  = 4
+  length  = 8
   numeric = false
   upper   = false
   special = false

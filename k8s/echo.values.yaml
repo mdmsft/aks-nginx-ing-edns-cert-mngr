@@ -1,0 +1,25 @@
+replicas: ${replicas}
+
+image: ${image}
+
+securityContext:
+  runAsUser: ${run_as_user}
+  runAsGroup: ${run_as_group}
+
+resources:
+  limits:
+    cpu: ${cpu_limit}
+    memory: ${memory_limit}
+
+port: ${port}
+
+livenessProbePath: ${liveness_probe_path}
+
+nodeSelector:
+  kubernetes.io/os: linux
+
+ingress:
+  annotations:
+    cert-manager.io/cluster-issuer: ${cluster_issuer}
+
+domain: ${domain}

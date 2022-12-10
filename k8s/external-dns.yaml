@@ -1,0 +1,6 @@
+provider: azure
+secretConfiguration:
+  enabled: true
+  mountPath: /etc/kubernetes
+  data:
+    "azure.json": '${data}'

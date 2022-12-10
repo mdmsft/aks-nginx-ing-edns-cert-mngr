@@ -20,6 +20,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~>2.0"
     }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = "1.14.0"
+    }
   }
   backend "azurerm" {
     use_azuread_auth = true
@@ -36,6 +40,13 @@ provider "azurerm" {
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false
+    }
+    log_analytics_workspace {
+      permanently_delete_on_destroy = true
+    }
+    virtual_machine_scale_set {
+      force_delete                 = true
+      roll_instances_when_required = true
     }
   }
 }
@@ -63,5 +74,9 @@ provider "helm" {
 }
 
 provider "kubernetes" {
+  config_path = ".kube/config"
+}
+
+provider "kubectl" {
   config_path = ".kube/config"
 }

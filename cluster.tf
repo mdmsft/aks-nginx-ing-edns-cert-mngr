@@ -110,7 +110,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
   }
 }
 
-resource "azurerm_role_assignment" "cluster_network_contributor" {
+resource "azurerm_role_assignment" "cluster_network_contributor_subnet" {
   role_definition_name = "Network Contributor"
   scope                = azurerm_subnet.cluster.id
   principal_id         = azurerm_kubernetes_cluster.main.identity.0.principal_id
@@ -174,4 +174,10 @@ resource "azurerm_role_assignment" "kubernetes_service_rbac_writer" {
   role_definition_name = "Azure Kubernetes Service RBAC Writer"
   principal_id         = each.value
   scope                = azurerm_kubernetes_cluster.main.id
+}
+
+resource "azurerm_role_assignment" "cluster_network_contributor_ip_address" {
+  role_definition_name = "Network Contributor"
+  principal_id         = azurerm_kubernetes_cluster.main.identity.0.principal_id
+  scope                = azurerm_public_ip.ingress.id
 }
